@@ -1,12 +1,20 @@
+import { render } from '@testing-library/react';
 import React from 'react';
 
-const SeasonDisplay = () => {
+const getSeason = () => {
 
-    return(
+
+
+
+// // const SeasonDisplay = (props) => {
+// //     const season = getSeason(props.lat, new Date().getMonth());
+render(
+    return (
         <div>
-            Hey
+            <h1>{props.lat}</h1>
         </div>
     )
+)
 }
 
 export default SeasonDisplay;

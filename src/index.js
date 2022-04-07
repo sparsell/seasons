@@ -1,43 +1,29 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import SeasonDisplay from './SeasonDisplay';
 
     class App extends React.Component {
-        constructor(props) {
-            super(props);
 
-            this.state = { lat: null, long: null };
+        state = { lat: null, counts: 0, errorMessage: ''};
 
-            window.navigator.geolocation.getCurrentPosition(
-                position => {
-                    this.setState({ lat: position.coords.latitude })
-                    this.setState({ long: position.coords.longitude })
-                },
-                err => {
-                    this.setState({errorMessage: err.message})
-                    console.log(err.message)
-                }
-                );
+            componentDidMount() { 
+                window.navigator.geolocation.getCurrentPosition(
+                    position => this.setState({ lat: position.coords.latitude }),
+                    err => this.setState({errorMessage: err.message})  
+              );
+            }
+
+        render() {  
+            if (this.state.errorMessage && !this.state.lat) {
+                return <div>Error: {this.state.errorMessage}</div>
+            }
+
+            if (!this.state.errorMessage && this.state.lat) {
+                return <SeasonDisplay lat={this.state.lat} />
+            }
+                return <div>Please wait...loading your data.</div>
         }
-
-        render() {
-            return (
-            <button>Push this!</button>
-            )
-            // if (this.state.errorMessage && !this.state.lat) {
-            //     return <div>Error: {this.state.errorMessage}</div>
-            // } 
-
-            // if (!this.state.errorMessage && this.state.lat) {
-            //     return <div>
-            //                 <p>Lat: {this.state.lat}</p>
-            //                 <p>Long: {this.state.long}</p>
-            //             </div>
-            // }
-
-            // return <div>Loading!</div>
-
-        }
-}
+};
 
 ReactDOM.render(
 <App />, 
